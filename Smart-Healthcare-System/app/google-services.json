@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "590074732226",
+    "firebase_url": "https://healthcare-52a7e-default-rtdb.firebaseio.com",
+    "project_id": "healthcare-52a7e",
+    "storage_bucket": "healthcare-52a7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590074732226:android:fd099964e614316dee655b",
+        "android_client_info": {
+          "package_name": "com.example.healthcare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590074732226-1rgt1kqudf4oldbc1nacgu8onjndj5eg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3IfRvaxUf01ibGyigJGxtikWJZ2XIgZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590074732226-1rgt1kqudf4oldbc1nacgu8onjndj5eg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
