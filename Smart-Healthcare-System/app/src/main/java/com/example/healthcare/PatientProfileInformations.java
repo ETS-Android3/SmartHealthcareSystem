@@ -3,6 +3,7 @@ package com.example.healthcare;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -69,11 +71,16 @@ public class PatientProfileInformations extends AppCompatActivity {
                 maritalStatus.setText(maritalStatusRetrieved);
 
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                StorageReference profileRef = storageReference.child("Profile pictures").child(emailRetrieved + ".jpg");
+                StorageReference profileRef = storageReference.child("Profile pictures").child(emailRetrieved+".jpg");
                 profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+
                         Uri = uri.toString();
+                        if(Uri==null)
+                        {
+                            Uri="https://firebasestorage.googleapis.com/v0/b/healthcare-52a7e.appspot.com/o/Profile%20pictures%2Fprofile_pic.png?alt=media&token=6827b3df-afe5-4c1f-b009-8d0c4dbda2b0";
+                        }
                         Picasso.get().load(uri).into(circleImageView);
                     }
                 });
@@ -102,7 +109,13 @@ public class PatientProfileInformations extends AppCompatActivity {
         intent.putExtra("phoneNumber", phoneNumberRetrieved);
         intent.putExtra("birthDate", birthdateRetrieved);
         intent.putExtra("maritalStatus", maritalStatusRetrieved);
+        if(Uri==null)
+        {
+            Uri="https://firebasestorage.googleapis.com/v0/b/healthcare-52a7e.appspot.com/o/Profile%20pictures%2Fprofile_pic.png?alt=media&token=6827b3df-afe5-4c1f-b009-8d0c4dbda2b0";
+        }
+        Log.i("URI value", "URI value is "+ Uri);
         intent.putExtra("imageUri", Uri);
+
 
         //just start the activity as an shared transition, but set the options bundle to null
         ActivityCompat.startActivity(this, intent, null);

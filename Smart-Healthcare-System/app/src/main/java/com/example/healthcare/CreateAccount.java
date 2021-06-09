@@ -1,9 +1,13 @@
 package com.example.healthcare;
 
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,18 +17,26 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.healthcare.models.Doctor;
 import com.example.healthcare.models.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CreateAccount extends AppCompatActivity {
     //Doctor fields
@@ -44,8 +56,10 @@ public class CreateAccount extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener DateSetListener;
 
     private FirebaseAuth fbAuth;
-
-
+    CircleImageView circleImageView;
+    StorageReference mStorageReference;
+    private static final int Pick_Image_Request = 1;
+    private Uri mImageUri;
 
 
     @Override
@@ -56,6 +70,8 @@ public class CreateAccount extends AppCompatActivity {
         //Loading dialog
          ld = new loadingDialog(CreateAccount.this);
 
+        circleImageView = findViewById(R.id.profile_pic);
+        mStorageReference = FirebaseStorage.getInstance().getReference("Profile pictures");
         // Patient fields
         patientFirstName = findViewById(R.id.patientFirstName);
         patientLastName = findViewById(R.id.patientLastName);
@@ -178,6 +194,7 @@ public class CreateAccount extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()) {
+                                   // uploadImage(email);
                                     Toast.makeText(CreateAccount.this, "User created successfully", Toast.LENGTH_LONG).show();
                                     ld.dismissDialog();
                                 }
@@ -259,6 +276,7 @@ public class CreateAccount extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()) {
+                                   // uploadImage(Email);
                                     Toast.makeText(CreateAccount.this, "Registration successful", Toast.LENGTH_LONG).show();
                                     ld.dismissDialog();
                                 }

@@ -10,16 +10,15 @@
     android:background="#FFF">
 
 
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="124dp"
         android:layout_height="124dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
+        android:src="@drawable/profile_pic"
         app:civ_border_color="#FFFFFF"
-        app:civ_border_width="2dp"
-        android:src="@drawable/aliluchloutfi" />
+        app:civ_border_width="2dp" />
     <ImageView
         android:id="@+id/profilePictureButton"
         android:layout_width="35dp"

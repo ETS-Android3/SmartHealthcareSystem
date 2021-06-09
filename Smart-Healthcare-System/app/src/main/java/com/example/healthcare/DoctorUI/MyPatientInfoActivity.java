@@ -72,7 +72,10 @@ public class MyPatientInfoActivity extends AppCompatActivity {
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(circleImageView);
+                if(uri.toString()==null)
+                {
+                    Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/healthcare-52a7e.appspot.com/o/Profile%20pictures%2Fprofile_pic.png?alt=media&token=6827b3df-afe5-4c1f-b009-8d0c4dbda2b0").into(circleImageView);
+                }else Picasso.get().load(uri).into(circleImageView);
                 progressBar.setVisibility(View.GONE);
             }
         });
