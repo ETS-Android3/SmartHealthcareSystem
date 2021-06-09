@@ -1,6 +1,7 @@
 package com.example.healthcare.DoctorUI;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -15,9 +16,13 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.healthcare.MenuActivity;
 import com.example.healthcare.R;
+import com.example.healthcare.ScheduleAppointmentActivity;
 import com.example.healthcare.models.Appointment;
 import com.example.healthcare.models.Patient;
+import com.example.healthcare.models.Relationship;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorOnHoldAppointmentAdapter extends BaseAdapter {
@@ -78,6 +84,7 @@ public class DoctorOnHoldAppointmentAdapter extends BaseAdapter {
         final TextView time = convertView.findViewById(R.id.time);
         Button acceptButton = convertView.findViewById(R.id.acceptButton);
         Button declineButton = convertView.findViewById(R.id.declineButton);
+        final Relationship relationship= new Relationship();
 
         final Appointment appointment = appointmentList.get(position);
         appointmentId = "";
@@ -105,7 +112,30 @@ public class DoctorOnHoldAppointmentAdapter extends BaseAdapter {
             public void onClick(View v) {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Appointments").child(appointmentId);
                 databaseReference.child("status").setValue("Accepted");
-                notifyDataSetChanged();
+
+
+                //Adding Relationship
+
+                relationship.setEmailDoctor(appointment.getEmailDoctor());
+                relationship.setEmailPatient(appointment.getEmailPatient());
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Relationships");
+                reference.push().setValue(relationship).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        notifyDataSetChanged();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        notifyDataSetChanged();
+                    }
+                });
+
+                //Adding Relationship
+
+
+
             }
         });
 

@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -67,6 +69,10 @@ public class MenuActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         todaysDate = DateFormat.getDateInstance(DateFormat.SHORT).format(c.getTime());
 
+        TextView link = (TextView) findViewById(R.id.my_health_web);
+        String linkText = "Visit the <a href='https://thingspeak.com/channels/1360317'>Smart Healthcare System</a> web page.";
+        link.setText(Html.fromHtml(linkText));
+        link.setMovementMethod(LinkMovementMethod.getInstance());
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Appointments");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
